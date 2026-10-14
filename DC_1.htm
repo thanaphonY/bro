@@ -1,0 +1,129 @@
+
+<!-- saved from url=(0029)http://192.168.2.2/s/DC_1.htm -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-874"><meta http-equiv="refresh" content="60">
+<script src="./DC_1_files/name.js"></script>
+<style type="text/css">
+body {background-color:#FFFF99;}
+.style8{color:#0000FF}
+.style9{color:#FF0000}
+.style11{color:#009933}
+.style13{color:#0000FF;font-style:italic;font-weight:bold;}
+.style14{color:#FF9966;font-weight:bold;}
+Td{font-family:Arial;font-size:10pt;text-align:middle;}
+Th{font-family:Arial;font-size:10pt;text-align:left;}
+</style>
+<script>
+
+VDC=new Array( 0,57408,22142,21,30780  );
+vb=12;
+HiF=14000; 
+LoD=11000; 
+LoF=13000; 
+k=4-1+1;
+txt1="";
+txt2="";
+d=document;
+w=500/k;
+if(w>40)w=40;
+
+Array.prototype.max=function(){
+max=this[1];
+len=this.length;
+for(i=1;i<len;i++)if(this[i]>max)max=this[i];
+return max;
+}
+Array.prototype.min=function(){
+min=this[1];
+len=this.length;
+for(i=1;i<len;i++)if(this[i]<min)min=this[i];
+return min;
+}
+Array.prototype.avg=function(){
+av=0;
+cnt=0;
+len=this.length;
+for(i=1;i<len;i++){
+e=+this[i];
+if(!e && this[i] !== 0 && this[i] !== '0') e--;
+if(this[i]==e){av+=e;cnt++;}
+}
+return av/cnt;
+}
+
+function SView(i){
+View.Vdc_STR_web.value=i;
+View.submit();
+}
+function Graph(G){
+if(G==1)Title="VB";
+d.write('<table height="160" border="0" cellspacing="0"><tr><TD style="VERTICAL-ALIGN:top;BORDER-RIGHT:black 1px solid;WIDTH:30pt;LINE-HEIGHT:9pt;TEXT-ALIGN:right"><span class="style8"><b>'+Title+'</b></span> _<BR>');
+if(G==1){
+	if(vb==1) v_b=12;
+	else v_b=10; 
+	for(j=25;j>=17;j--)document.write( j*vb*v_b/200+"__<BR>_<BR>");
+	d.write( j*vb*v_b/200+"__<BR></TD>");
+	for(i=1;i<=k ;i++){
+	al="";
+	if(VDC[i]>HiF){c="red";al="high float";}
+	else if(VDC[i]<LoD){c="red";al="low discharge";}
+	else if(VDC[i]<LoF){c="orange";al="low float";}
+	else {c="green";}
+	if(vb!=1){V=VDC[i];}
+	else V=VDC[i];
+	p=(V-80*vb*v_b)/(vb*v_b*50)*180;
+	if(p>180)p=180;					
+	if(p<1)p=1;					
+d.write("<TD style='VERTICAL-ALIGN:bottom;HEIGHT:180pt'>"+"<DIV title='Blk"+i+": "+VDC[i]/1000+"V.  "+al+"'  style='FONT-SIZE:0pt;WIDTH:"+w+"px;HEIGHT:" +p+"pt; BACKGROUND-COLOR:"+c+"'></DIV>");
+	}
+}
+d.write('<tr><TD height="20">');
+for(i=1;i<=k ;i+=5) d.write('<TD colspan="5" style="BORDER-TOP:black 1px solid;BORDER-LEFT:black 1px solid;TEXT-ALIGN:left">'+i);
+d.write("</table>");
+
+}
+</script>
+</head>
+
+<body>
+
+Select DC String [ <a href="http://192.168.2.2/s/DC_1.htm#" onclick="JavaScript: SView(1);">1</a> <a href="http://192.168.2.2/s/DC_1.htm#" onclick="JavaScript: SView(2);">2</a> <a href="http://192.168.2.2/s/DC_1.htm#" onclick="JavaScript: SView(3);">3</a> <a href="http://192.168.2.2/s/DC_1.htm#" onclick="JavaScript: SView(4);">4</a> ]
+<p><b>String4 ( 
+<script>d.write(DCname[4]);</script>No.4)
+<table>
+<tbody><tr><td><form name="View" action="http://192.168.2.2/s/DC_1.htm" method="post" style="visibility:hidden">
+<input type="hidden" name="Vdc_STR_web" value=" ">
+</form>
+</td></tr></tbody></table>
+<script>
+d.write('<table><td valign="top"><table width="180" border="1">');
+d.write("<tr><th width='110'>Vstr<td width='70'>"+11035/100+"V.");
+d.write("<tr><th>Idc<td>"+-2512/10+"A.");
+d.write("<tr><th>Temp<td>"+34954/10+" 'C");
+d.write("<tr><th>Remain time<td>0 mn.");
+d.write("<tr><th>Discharge time<td>572 mn.");
+d.write("<tr><th>Remain AH<td>"+Math.round(10*0/12)/10+" AH");
+d.write("<tr><th>Discharge AH<td>"+Math.round(10*28761/12)/10+" AH");
+d.write("<tr><th>Avg.<td>"+Math.round(VDC.avg())/1000+" V.");
+d.write("<tr><th>Max.<td>"+VDC.max()/1000+" V.");
+d.write("<tr><th>Min.<td>"+VDC.min()/1000+" V.");
+d.write('</table><td>');
+Graph(1);
+
+d.write('</table><p>Battery Data<br><table border="1" cellspacing="0" style="text-align:center;">');
+txt1="<th style='FONT-SIZE: 10pt;'>Blk .";
+d.write("<tr><td width='30'>No.</td><td width='100'>Vb");
+for(i=1;i<=k;i++){
+d.write("<tr>");
+al="";
+if(VDC[i]>HiF){c="red";al="high float";}
+else if(VDC[i]<LoD){c="red";al="low discharge";}
+else if(VDC[i]<LoF){c="orange";al="low float";}
+else c="green";
+d.write("<td>"+i+"<td style='color:"+c+";'><div title='"+al+"'> "+VDC[i]/1000+"</div>");
+c="blue";al="";
+}
+d.write("</table>");
+</script><table><tbody><tr><td valign="top"><table width="180" border="1"><tbody><tr><th width="110">Vstr</th><td width="70">110.35V.</td></tr><tr><th>Idc</th><td>-251.2A.</td></tr><tr><th>Temp</th><td>3495.4 'C</td></tr><tr><th>Remain time</th><td>0 mn.</td></tr><tr><th>Discharge time</th><td>572 mn.</td></tr><tr><th>Remain AH</th><td>0 AH</td></tr><tr><th>Discharge AH</th><td>2396.8 AH</td></tr><tr><th>Avg.</th><td>27.588 V.</td></tr><tr><th>Max.</th><td>57.408 V.</td></tr><tr><th>Min.</th><td>0.021 V.</td></tr></tbody></table></td><td><table height="160" border="0" cellspacing="0"><tbody><tr><td style="VERTICAL-ALIGN:top;BORDER-RIGHT:black 1px solid;WIDTH:30pt;LINE-HEIGHT:9pt;TEXT-ALIGN:right"><span class="style8"><b>VB</b></span> _<br>15__<br>_<br>14.4__<br>_<br>13.8__<br>_<br>13.2__<br>_<br>12.6__<br>_<br>12__<br>_<br>11.4__<br>_<br>10.8__<br>_<br>10.2__<br>_<br>9.6__<br></td><td style="VERTICAL-ALIGN:bottom;HEIGHT:180pt"><div title="Blk1: 57.408V.  high float" style="FONT-SIZE:0pt;WIDTH:40px;HEIGHT:180pt; BACKGROUND-COLOR:red"></div></td><td style="VERTICAL-ALIGN:bottom;HEIGHT:180pt"><div title="Blk2: 22.142V.  high float" style="FONT-SIZE:0pt;WIDTH:40px;HEIGHT:180pt; BACKGROUND-COLOR:red"></div></td><td style="VERTICAL-ALIGN:bottom;HEIGHT:180pt"><div title="Blk3: 0.021V.  low discharge" style="FONT-SIZE:0pt;WIDTH:40px;HEIGHT:1pt; BACKGROUND-COLOR:red"></div></td><td style="VERTICAL-ALIGN:bottom;HEIGHT:180pt"><div title="Blk4: 30.78V.  high float" style="FONT-SIZE:0pt;WIDTH:40px;HEIGHT:180pt; BACKGROUND-COLOR:red"></div></td></tr><tr><td height="20"></td><td colspan="5" style="BORDER-TOP:black 1px solid;BORDER-LEFT:black 1px solid;TEXT-ALIGN:left">1</td></tr></tbody></table></td></tr></tbody></table></b></p><p><b>Battery Data<br><table border="1" cellspacing="0" style="text-align:center;"><tbody><tr><td width="30">No.</td><td width="100">Vb</td></tr><tr><td>1</td><td style="color:red;"><div title="high float"> 57.408</div></td></tr><tr><td>2</td><td style="color:red;"><div title="high float"> 22.142</div></td></tr><tr><td>3</td><td style="color:red;"><div title="low discharge"> 0.021</div></td></tr><tr><td>4</td><td style="color:red;"><div title="high float"> 30.78</div></td></tr></tbody></table>
+
+
+</b></p></body></html>
